@@ -1,6 +1,5 @@
 import RandomNumber from '@/components/RandomNumber'
 import { mount } from '@vue/test-utils'
-import { random } from 'core-js/fn/number'
 
 describe('RandomNumber', () => {
   test('By default, random data value shold be 0 ', () => {
@@ -16,7 +15,17 @@ describe('RandomNumber', () => {
     expect(randomNumber).toBeGreaterThanOrEqual(1)
     expect(randomNumber).toBeLessThanOrEqual(10)
   })
-  test('If button is clicked, RandomNumber shold be between 200 and 300', () => {
-    expect(true).toBe(false)
+  test('If button is clicked, RandomNumber shold be between 200 and 300', async () => {
+    const wrapper = mount(RandomNumber, {
+      propsData: {
+        min: 200,
+        max: 300
+      }
+    })
+    wrapper.find('button').trigger('click')
+    await wrapper.vm.$nextTick()
+    const randomNumber = parseInt(wrapper.find('span').element.textContent)
+    expect(randomNumber).toBeGreaterThanOrEqual(200)
+    expect(randomNumber).toBeLessThanOrEqual(300)
   })
 })
