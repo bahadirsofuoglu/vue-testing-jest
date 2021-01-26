@@ -2,16 +2,17 @@ import LoginForm from '@/components/LoginForm'
 import { mount } from '@vue/test-utils'
 
 describe('LoginForm', () => {
-  test('if user is not logged in, do not show logout button', () => {
-    const wrapper = mount(AppHeader)
-    expect(wrapper.find('button').isVisible()).toBe(false)
-  })
+  it('emits an event with a user data payload', () => {
+    const wrapper = mount(LoginForm)
+    const input = wrapper.find('input[type="text"]')
+    input.setValue('Bahadir Sofuoglu')
+    wrapper.trigger('submit')
+    const formSubmittedCalls = wrapper.emitted('formSubmitted')
+    expect(formSubmittedCalls).toHaveLength(1)
 
-  test('if logged in, show logout button', async () => {
-    const wrapper = mount(AppHeader)
-    wrapper.setData({ loggedIn: true })
-
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find('button').isVisible()).toBe(true)
+    const expectedPayload = { name: 'Bahadir Sofuoglu' }
+    expect(wrapper.emitted('formSubmitted')[0][0]).toMatchObject(
+      expectedPayload
+    )
   })
 })
