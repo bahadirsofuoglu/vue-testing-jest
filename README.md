@@ -1,5 +1,5 @@
 # vue-testing-jest
-
+Includes examples I made for the vue-mastery unit-testing course.
 ## Project setup
 ```
 npm install
